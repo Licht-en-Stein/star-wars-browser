@@ -5,6 +5,38 @@ var renderers = {
 var mainElement = document.querySelector('main');
 
 
+/*      Main Pager Navigation     */
+
+
+function createPagerNav(data, renderList) {
+    var navElement = document.createElement('nav');
+
+    if (data.previous) {
+        var prevButton = document.createElement('button');
+        prevButton.classList.add('previous');
+        prevButton.textContent = 'Previous';
+
+        prevButton.addEventListener('click', function() {
+            loadData(data.previous, renderList);
+        });
+        navElement.appendChild(prevButton);
+    }
+
+    if (data.next) {
+        var nextButton = document.createElement('button');
+        nextButton.classList.add('next');
+        nextButton.textContent = 'Next';
+
+        nextButton.addEventListener('click', function() {
+            loadData(data.next, renderList);
+        });
+        navElement.appendChild(nextButton);
+    }
+    return navElement;
+}
+
+/*      Load Data     */
+
 function loadData(url, done) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url);
@@ -16,6 +48,7 @@ function loadData(url, done) {
     xhr.send();
 }
 
+/*      Render Menu     */
 
 function renderMenu(data) {
     var menuElement = document.querySelector('body > header ul');
@@ -39,40 +72,26 @@ function renderMenu(data) {
 loadData('https://swapi.co/api/', renderMenu);
 
 
+/*      Load People    */
+
+
 function loadPeople(done) {
     loadData('https://swapi.co/api/people', done);
 }
 
+
+/*      Load Planet     */
 
 function loadPlanet(url, done) {
     loadData(url, done);
 }
 
 
-function renderPeople(people) {
+/*      Render People     */
+
+function renderPeople(data) {
     mainElement.innerHTML = '';
-    var navElement = document.createElement('nav');
-    if (people.previous) {
-        var prevButton = document.createElement('button');
-        prevButton.classList.add('previous');
-        prevButton.textContent = 'Previous';
-
-        prevButton.addEventListener('click', function() {
-            loadData(people.previous, renderPeople);
-        });
-        navElement.appendChild(prevButton);
-    }
-
-    if (people.next) {
-        var nextButton = document.createElement('button');
-        nextButton.classList.add('next');
-        nextButton.textContent = 'Next';
-
-        nextButton.addEventListener('click', function() {
-            loadData(people.next, renderPeople);
-        });
-        navElement.appendChild(nextButton);
-    }
+    var navElement = createPagerNav(data, renderPeople);
 
     var cardsElement = document.createElement('div');
     cardsElement.classList.add('cards');
@@ -80,9 +99,8 @@ function renderPeople(people) {
     mainElement.appendChild(cardsElement);
     mainElement.appendChild(navElement);
 
-    people.results.forEach(function(person) {
+    data.results.forEach(function(person) {
         var sectionElement = document.createElement('section');
-        sectionElement.classList.add('person');
 
         var genderSymbol;
         switch (person.gender) {
@@ -149,6 +167,7 @@ function renderPeople(people) {
 renderers.people = renderPeople;
 
 
+
 function createModal() {
     var element = document.createElement('div');
     element.classList.add('modal');
@@ -179,6 +198,9 @@ var modalContentElement = modalElement.querySelector('.content');
 var modalCloseButton = modalElement.querySelector('.controls button');
 modalCloseButton.addEventListener('click', hideModal);
 document.body.appendChild(modalElement);
+
+
+/*      Render Planet for modal    */
 
 
 function renderPlanet(planet) {
@@ -233,31 +255,12 @@ function renderPlanet(planet) {
 loadPeople(renderPeople);
 
 
-function renderPlanets(planets) {
+/*      Render Planets     */
+
+
+function renderPlanets(data) {
     mainElement.innerHTML = '';
-    var navElement = document.createElement('nav');
-    if (planets.previous) {
-        var prevButton = document.createElement('button');
-        prevButton.classList.add('previous');
-        prevButton.textContent = 'Previous';
-
-        prevButton.addEventListener('click', function() {
-            loadData(planets.previous, renderPlanets);
-        });
-        navElement.appendChild(prevButton);
-    }
-
-    if (planets.next) {
-        var nextButton = document.createElement('button');
-        nextButton.classList.add('next');
-        nextButton.textContent = 'Next';
-
-        nextButton.addEventListener('click', function() {
-            loadData(planets.next, renderPlanets);
-        });
-        navElement.appendChild(nextButton);
-    }
-
+    var navElement = createPagerNav(data, renderPlanets);
 
     var cardsElement = document.createElement('div');
     cardsElement.classList.add('cards');
@@ -266,7 +269,7 @@ function renderPlanets(planets) {
     mainElement.appendChild(navElement);
 
 
-    planets.results.forEach(function(planet) {
+    data.results.forEach(function(planet) {
         var sectionElement = document.createElement('section');
         sectionElement.classList.add('planet');
 
@@ -324,31 +327,13 @@ function renderPlanets(planets) {
 renderers.planets = renderPlanets;
 
 
-function renderFilms(films) {
+/*      Render Films     */
+
+
+function renderFilms(data) {
     mainElement.innerHTML = '';
-    var navElement = document.createElement('nav');
-    if (films.previous) {
-        var prevButton = document.createElement('button');
-        prevButton.classList.add('previous');
-        prevButton.textContent = 'Previous';
 
-        prevButton.addEventListener('click', function() {
-            loadData(films.previous, renderFilms);
-        });
-        navElement.appendChild(prevButton);
-    }
-
-    if (films.next) {
-        var nextButton = document.createElement('button');
-        nextButton.classList.add('next');
-        nextButton.textContent = 'Next';
-
-        nextButton.addEventListener('click', function() {
-            loadData(films.next, renderFilms);
-        });
-        navElement.appendChild(nextButton);
-    }
-
+    var navElement = createPagerNav(data, renderFilms);
 
     var cardsElement = document.createElement('div');
     cardsElement.classList.add('cards');
@@ -357,7 +342,7 @@ function renderFilms(films) {
     mainElement.appendChild(navElement);
 
 
-    films.results.forEach(function(film) {
+    data.results.forEach(function(film) {
         var sectionElement = document.createElement('section');
         sectionElement.classList.add('film');
 
@@ -404,30 +389,12 @@ function renderFilms(films) {
 renderers.films = renderFilms;
 
 
-function renderSpecies(species) {
+/*      Render Species     */
+
+
+function renderSpecies(data) {
     mainElement.innerHTML = '';
-    var navElement = document.createElement('nav');
-    if (species.previous) {
-        var prevButton = document.createElement('button');
-        prevButton.classList.add('previous');
-        prevButton.textContent = 'Previous';
-
-        prevButton.addEventListener('click', function() {
-            loadData(species.previous, renderSpecies);
-        });
-        navElement.appendChild(prevButton);
-    }
-
-    if (species.next) {
-        var nextButton = document.createElement('button');
-        nextButton.classList.add('next');
-        nextButton.textContent = 'Next';
-
-        nextButton.addEventListener('click', function() {
-            loadData(species.next, renderSpecies);
-        });
-        navElement.appendChild(nextButton);
-    }
+    var navElement = createPagerNav(data, renderSpecies);
 
 
     var cardsElement = document.createElement('div');
@@ -437,7 +404,7 @@ function renderSpecies(species) {
     mainElement.appendChild(navElement);
 
 
-    species.results.forEach(function(specie) {
+    data.results.forEach(function(specie) {
         var sectionElement = document.createElement('section');
         sectionElement.classList.add('specie');
 
@@ -494,39 +461,18 @@ function renderSpecies(species) {
             });
 
         cardsElement.appendChild(sectionElement);
-
     });
-
 }
 
 renderers.species = renderSpecies;
 
 
-function renderVehicles(vehicles) {
+/*      Render Vehicles     */
+
+
+function renderVehicles(data) {
     mainElement.innerHTML = '';
-    var navElement = document.createElement('nav');
-    if (vehicles.previous) {
-        var prevButton = document.createElement('button');
-        prevButton.classList.add('previous');
-        prevButton.textContent = 'Previous';
-
-        prevButton.addEventListener('click', function() {
-            loadData(vehicles.previous, renderVehicles);
-        });
-        navElement.appendChild(prevButton);
-    }
-
-    if (vehicles.next) {
-        var nextButton = document.createElement('button');
-        nextButton.classList.add('next');
-        nextButton.textContent = 'Next';
-
-        nextButton.addEventListener('click', function() {
-            loadData(vehicles.next, renderVehicles);
-        });
-        navElement.appendChild(nextButton);
-    }
-
+    var navElement = createPagerNav(data, renderVehicles);
 
     var cardsElement = document.createElement('div');
     cardsElement.classList.add('cards');
@@ -535,7 +481,7 @@ function renderVehicles(vehicles) {
     mainElement.appendChild(navElement);
 
 
-    vehicles.results.forEach(function(vehicle) {
+    data.results.forEach(function(vehicle) {
         var sectionElement = document.createElement('section');
         sectionElement.classList.add('vehicle');
 
@@ -601,30 +547,12 @@ function renderVehicles(vehicles) {
 renderers.vehicles = renderVehicles;
 
 
-function renderStarships(starships) {
+/*      Render Starships     */
+
+
+function renderStarships(data) {
     mainElement.innerHTML = '';
-    var navElement = document.createElement('nav');
-    if (starships.previous) {
-        var prevButton = document.createElement('button');
-        prevButton.classList.add('previous');
-        prevButton.textContent = 'Previous';
-
-        prevButton.addEventListener('click', function() {
-            loadData(starships.previous, renderStarships);
-        });
-        navElement.appendChild(prevButton);
-    }
-
-    if (starships.next) {
-        var nextButton = document.createElement('button');
-        nextButton.classList.add('next');
-        nextButton.textContent = 'Next';
-
-        nextButton.addEventListener('click', function() {
-            loadData(starships.next, renderStarships);
-        });
-        navElement.appendChild(nextButton);
-    }
+    var navElement = createPagerNav(data, renderStarships);
 
 
     var cardsElement = document.createElement('div');
@@ -634,7 +562,7 @@ function renderStarships(starships) {
     mainElement.appendChild(navElement);
 
 
-    starships.results.forEach(function(starship) {
+    data.results.forEach(function(starship) {
         var sectionElement = document.createElement('section');
         sectionElement.classList.add('starship');
 
@@ -705,6 +633,10 @@ function renderStarships(starships) {
 }
 
 renderers.starships = renderStarships;
+
+
+/*      Render Unimplemented when ther's no data     */
+
 
 function renderUnimplemented() {
     mainElement.innerHTML = "Sorry, this is not implemented yet.";
