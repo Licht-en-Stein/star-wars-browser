@@ -32,10 +32,30 @@ function createPagerNav(data, renderList) {
         });
         navElement.appendChild(nextButton);
     }
-    return navElement;
+    mainElement.appendChild(navElement);
 }
 
+
+/*      Render Cards     */
+
+
+function renderCards(data, renderItem) {
+    var cardsElement = document.createElement('div');
+    cardsElement.classList.add('cards')
+
+    data.results.forEach(function(object) {
+        var sectionElement = document.createElement('section');
+        renderItem(sectionElement, object);
+        cardsElement.appendChild(sectionElement);
+    });
+
+    mainElement.appendChild(cardsElement);
+}
+
+
 /*      Load Data     */
+
+
 
 function loadData(url, done) {
     var xhr = new XMLHttpRequest();
@@ -48,7 +68,9 @@ function loadData(url, done) {
     xhr.send();
 }
 
+
 /*      Render Menu     */
+
 
 function renderMenu(data) {
     var menuElement = document.querySelector('body > header ul');
@@ -64,12 +86,8 @@ function renderMenu(data) {
 
         listElement.appendChild(linkElement);
         menuElement.appendChild(listElement);
-
     });
 }
-
-
-loadData('https://swapi.co/api/', renderMenu);
 
 
 /*      Load People    */
@@ -78,7 +96,6 @@ loadData('https://swapi.co/api/', renderMenu);
 function loadPeople(done) {
     loadData('https://swapi.co/api/people', done);
 }
-
 
 /*      Load Planet     */
 
@@ -89,19 +106,11 @@ function loadPlanet(url, done) {
 
 /*      Render People     */
 
+
 function renderPeople(data) {
     mainElement.innerHTML = '';
-    var navElement = createPagerNav(data, renderPeople);
-
-    var cardsElement = document.createElement('div');
-    cardsElement.classList.add('cards');
-
-    mainElement.appendChild(cardsElement);
-    mainElement.appendChild(navElement);
-
-    data.results.forEach(function(person) {
-        var sectionElement = document.createElement('section');
-
+    createPagerNav(data, renderPeople);
+    renderCards(data, function(sectionElement, person) {
         var genderSymbol;
         switch (person.gender) {
             case 'male':
@@ -159,13 +168,13 @@ function renderPeople(data) {
                 loadPlanet(person.homeworld, renderPlanet);
             });
 
-        cardsElement.appendChild(sectionElement);
-
     });
 }
 
 renderers.people = renderPeople;
 
+
+/*      Create modal    */
 
 
 function createModal() {
@@ -181,11 +190,17 @@ function createModal() {
 }
 
 
+/*      Show modal     */
+
+
 function showModal(contentElement) {
     modalContentElement.innerHTML = '';
     modalContentElement.appendChild(contentElement);
     modalElement.classList.add('open');
 }
+
+
+/*      hide modal     */
 
 
 function hideModal() {
@@ -252,27 +267,14 @@ function renderPlanet(planet) {
 }
 
 
-loadPeople(renderPeople);
-
-
 /*      Render Planets     */
 
 
 function renderPlanets(data) {
     mainElement.innerHTML = '';
-    var navElement = createPagerNav(data, renderPlanets);
+    createPagerNav(data, renderFilms);
 
-    var cardsElement = document.createElement('div');
-    cardsElement.classList.add('cards');
-
-    mainElement.appendChild(cardsElement);
-    mainElement.appendChild(navElement);
-
-
-    data.results.forEach(function(planet) {
-        var sectionElement = document.createElement('section');
-        sectionElement.classList.add('planet');
-
+    renderCards(data, function(sectionElement, planet) {
 
         sectionElement.innerHTML = `
         <header>
@@ -318,9 +320,6 @@ function renderPlanets(data) {
         </ul>
        </div>
             `;
-
-        cardsElement.appendChild(sectionElement);
-
     });
 }
 
@@ -332,20 +331,9 @@ renderers.planets = renderPlanets;
 
 function renderFilms(data) {
     mainElement.innerHTML = '';
+    createPagerNav(data, renderFilms);
 
-    var navElement = createPagerNav(data, renderFilms);
-
-    var cardsElement = document.createElement('div');
-    cardsElement.classList.add('cards');
-
-    mainElement.appendChild(cardsElement);
-    mainElement.appendChild(navElement);
-
-
-    data.results.forEach(function(film) {
-        var sectionElement = document.createElement('section');
-        sectionElement.classList.add('film');
-
+    renderCards(data, function(sectionElement, film) {
 
         sectionElement.innerHTML = `
         <header>
@@ -379,11 +367,7 @@ function renderFilms(data) {
           </ul>
         </div>
             `;
-
-        cardsElement.appendChild(sectionElement);
-
     });
-
 }
 
 renderers.films = renderFilms;
@@ -394,20 +378,9 @@ renderers.films = renderFilms;
 
 function renderSpecies(data) {
     mainElement.innerHTML = '';
-    var navElement = createPagerNav(data, renderSpecies);
+    createPagerNav(data, renderSpecies);
 
-
-    var cardsElement = document.createElement('div');
-    cardsElement.classList.add('cards');
-
-    mainElement.appendChild(cardsElement);
-    mainElement.appendChild(navElement);
-
-
-    data.results.forEach(function(specie) {
-        var sectionElement = document.createElement('section');
-        sectionElement.classList.add('specie');
-
+    renderCards(data, function(sectionElement, specie) {
 
         sectionElement.innerHTML = `
         <header>
@@ -454,13 +427,11 @@ function renderSpecies(data) {
        </div>
             `;
 
-
         sectionElement.querySelector('button')
             .addEventListener('click', function() {
                 loadPlanet(specie.homeworld, renderPlanet);
             });
 
-        cardsElement.appendChild(sectionElement);
     });
 }
 
@@ -472,19 +443,9 @@ renderers.species = renderSpecies;
 
 function renderVehicles(data) {
     mainElement.innerHTML = '';
-    var navElement = createPagerNav(data, renderVehicles);
+    createPagerNav(data, renderVehicles);
 
-    var cardsElement = document.createElement('div');
-    cardsElement.classList.add('cards');
-
-    mainElement.appendChild(cardsElement);
-    mainElement.appendChild(navElement);
-
-
-    data.results.forEach(function(vehicle) {
-        var sectionElement = document.createElement('section');
-        sectionElement.classList.add('vehicle');
-
+    renderCards(data, function(sectionElement, vehicle) {
 
         sectionElement.innerHTML = `
         <header>
@@ -492,7 +453,6 @@ function renderVehicles(data) {
             ${vehicle.name}
           </h1>
         </header>
-       <button>Homeworld</button>
         <div>
          <ul>
             <li>
@@ -538,8 +498,6 @@ function renderVehicles(data) {
         </ul>
        </div>
             `;
-        cardsElement.appendChild(sectionElement);
-
     });
 
 }
@@ -552,20 +510,9 @@ renderers.vehicles = renderVehicles;
 
 function renderStarships(data) {
     mainElement.innerHTML = '';
-    var navElement = createPagerNav(data, renderStarships);
+    createPagerNav(data, renderStarships);
 
-
-    var cardsElement = document.createElement('div');
-    cardsElement.classList.add('cards');
-
-    mainElement.appendChild(cardsElement);
-    mainElement.appendChild(navElement);
-
-
-    data.results.forEach(function(starship) {
-        var sectionElement = document.createElement('section');
-        sectionElement.classList.add('starship');
-
+    renderCards(data, function(sectionElement, starship) {
 
         sectionElement.innerHTML = `
         <header>
@@ -626,10 +573,7 @@ function renderStarships(data) {
         </ul>
        </div>
             `;
-        cardsElement.appendChild(sectionElement);
-
     });
-
 }
 
 renderers.starships = renderStarships;
@@ -641,3 +585,9 @@ renderers.starships = renderStarships;
 function renderUnimplemented() {
     mainElement.innerHTML = "Sorry, this is not implemented yet.";
 }
+
+
+loadPeople(renderPeople);
+
+
+loadData('https://swapi.co/api/', renderMenu);
