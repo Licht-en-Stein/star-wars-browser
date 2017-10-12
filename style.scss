@@ -1,169 +1,159 @@
 *,
 *:before,
 *:after {
-    box-sizing: border-box/* fill here */
-    ;
+    box-sizing: border-box;
 }
 
 html {
-    height: 100%/* fill here */
-    ;
+    height: 100%;
 }
 
 body {
     font-family: 'Ropa Sans', sans-serif;
-    
-    /* fill here */
-    
     font-size: 1.1rem;
     /* additional */
-    line-height: 1.6/* fill here */
-    ;
-    color: rgba(255, 255, 255, .8)/* fill here */
-    ;
-    background-color: rgba(255, 255, 255, .7)/* fill here */
-    ;
-    display: flex/* fill here */
-    ;
-    flex-direction: column/* fill here */
-    ;
-    margin: 0/* fill here */
-    ;
-    height: 100%/* fill here */
-    ;
-    background-image: url('background.gif')/* fill here */
-    ;
-    background-attachment: fixed/* fill here */
-    ;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, .8);
+    background-color: rgba(255, 255, 255, .7);
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    height: 100%;
+    background-image: url('../background.gif');
+    background-attachment: fixed;
 }
 
 a,
 a:link,
 a:hover,
 a:visited {
-    color: #FFD700/* fill here */
-    ;
-    text-decoration: none/* fill here */
-    ;
+    color: #FFD700;
+    text-decoration: none;
     cursor: pointer;
 }
 
 h1,
 h2,
 h3 {
-    margin: 0/* fill here */
-    ;
-    font-weight: normal/* fill here */
-    ;
-    text-align: center;
+    margin: 0;
+    font-weight: normal;
 }
 
 header,
 footer {
-    color: rgba(0, 0, 0, .7)/* fill here */
-    ;
-    background-color: rgba(255, 255, 255, .7)/* fill here */
-    ;
-    text-align: center;
+    color: rgba(0, 0, 0, .7);
+    background-color: rgba(255, 255, 255, .7);
 }
 
-body {
-    > header {
-    border-bottom: 1px solid rgba(255, 255, 0, 1)/* fill here */
-    ;  
-    padding: .1rem .1rem;
-    }
-    > footer {
-        padding: .1rem .1rem;
-        border-top: 1px solid rgba(255, 255, 0, 1)/* fill here */
-    }
+body>header,
+body>footer {
+    padding-left: 1rem;
+    padding-right: .1rem;
 }
 
+body>header,
+body>footer {
+    padding-top: .2rem;
+    padding-bottom: .2rem;
+}
+
+body>header {
+    border-bottom: 1px solid rgba(255, 255, 0, 1);
+}
 
 main {
-    flex-grow: 1/* fill here */
-    ;
-    overflow: auto/* fill here */
-    ;
-    display: flex/* fill here */
-    ;
-    flex-wrap: wrap/* fill here */
-    ;
+    flex-grow: 1;
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-
+body>footer {
+    border-top: 1px solid rgba(255, 255, 0, 1);
+}
 
 .cards > section {
-
-    width: calc(33% - 1.9rem)/* fill here */
-    ;
-    margin: 1rem/* fill here */
-    ;
-    background-color: rgba(0, 0, 0, .5)/* fill here */
-    ;
-    border: 1px solid rgba(255, 255, 0, .7)/* fill here */
-    ;
-    border-radius: 3px/* fill here */
-    ;
+    width: calc(33% - 1.9rem);
+    margin: 1rem;
+    background-color: rgba(0, 0, 0, .5);
+    border: 1px solid rgba(255, 255, 0, .7);
+    border-radius: 3px;
     overflow: hidden;
     /* additional */
-    }
-    > header {
-    border-bottom: 1px solid rgba(255, 255, 0, .7)/* fill here */
-    ;
+}
+
+.cards > section>header,
+.cards > section>div {
     padding: .5rem;
-    }
-    > div {
-    padding: .5rem/* fill here */
-    ;
-    }
+}
 
+.cards > section>header {
+    border-bottom: 1px solid rgba(255, 255, 0, .7);
+}
 
-.cards > section {
-     ul, 
-    .planet ul {
-    padding: .5rem/* fill here */
-    ;
-    }
-    > li,
-    .planet li {
-    display: flex/* fill here */
-    ;
-    padding: .2rem/* fill here */
-    ;
-    }
-    > .label,
-    .planet .label {
-    flex-grow: 0/* fill here */
-    ;
-    width: 60%/* fill here */
-    ;
-    }
-    > .gender,
-    {
-    color: rgba(0, 0, 0, .5)/* fill here */
-    ;
-    }
-    > .value,
-    .planet .value {
-    color: #00FFFF/* fill here */
-    ;
-    }
+.cards > section ul .planet ul {
+    padding: .5rem;
+}
+
+.cards > section li,
+.planet li {
+    display: flex;
+    padding: .2rem;
+}
+
+.cards > section .label,
+.planet .label {
+    flex-grow: 0;
+    width: 60%;
+}
+
+.cards > section .gender,
+{
+    color: rgba(0, 0, 0, .5);
+}
+
+.cards > section .value,
+.planet .value {
+    color: #00FFFF;
 }
 
 
 
 /**/
 
+.modal,
+.modal>.underlay,
+.modal>.body {
+    position: absolute;
+}
+
+.modal,
+.modal>.underlay {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
 .modal {
     height: 0;
     z-index: 10;
     overflow: hidden;
     transition: height 200ms linear;
+}
+
+.modal.open {
     height: 100%;
-    }
-    > .body {
-    position: absolute;
+}
+
+.modal>.underlay {
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+
+.modal>.body {
+    /* fill here */
     width: 30%;
     height: 45%;
     z-index: 20;
@@ -172,30 +162,22 @@ main {
     bottom: 5em;
     display: flex;
     flex-direction: column;
-    }
-    > .underlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    background-color: rgba(255, 255, 255, 0.7);
-   }
-   .open {
-    height: 100%;
-    }
-    .controls {
+}
+
+.modal .controls {
+    /* fill here */
     padding: .2em .4em;
-    }
-    .content {
-     flex-grow: 1;
+}
+
+.modal .content {
+    /* fill here */
+    flex-grow: 1;
     background-color: #000;
     box-shadow: inset 1px 1px 20px rgba(0, 255, 255, .9),
     inset .5px .5px 10px .5px rgba(0, 255, 255, .4);
     border-radius: 3px;
-    overflow: auto;   
-    }
+    overflow: auto;
+}
 
 
 
